@@ -9,7 +9,7 @@ const Register = () => {
     });
     const [message, setMessage] = useState('');
 
-    const handleSubmit = async (e) => {
+    const handleChange = async (e) => {
         e.preventDefault();
         if (formData.password !== formData.password2) {
             setMessage('Пароли не совпадают.');
@@ -44,14 +44,14 @@ const Register = () => {
     return (
         <div>
             <h2>Регистрация</h2>
-            <form onSubmit={hundleSubmit}>
+            <form onSubmit={handleChange}>
                 <div>
                     <label>Имя пользователя:</label>
                     <input
                         type="text"
                         name='username'
                         value={formData.username}
-                        onChange={hundleSubmit}
+                        onChange={handleChange}
                         required
                     />
                 </div>
