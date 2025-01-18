@@ -9,8 +9,20 @@ const Register = () => {
     });
     const [message, setMessage] = useState('');
 
-    const handleChange = async (e) => {
+    // Функция для обработки изменений в полях ввода
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData({
+            ...formData,
+            [name]: value,
+        });
+    };
+
+    // Функция для обработки отправки формы
+    const handleSubmit = async (e) => {
         e.preventDefault();
+
+        // Проверка совпадения паролей
         if (formData.password !== formData.password2) {
             setMessage('Пароли не совпадают.');
             return;
@@ -19,14 +31,14 @@ const Register = () => {
         try {
             const response = await fetch('http://127.0.0.1:8000/api/register/', {
                 method: 'POST',
-                header: {
+                headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     username: formData.username,
-                    email: FormData.email,
-                    password: FormData.password,
-                    password2: FormData.password2,
+                    email: formData.email,
+                    password: formData.password,
+                    password2: formData.password2,
                 }),
             });
 
@@ -44,12 +56,12 @@ const Register = () => {
     return (
         <div>
             <h2>Регистрация</h2>
-            <form onSubmit={handleChange}>
+            <form onSubmit={handleSubmit}>
                 <div>
                     <label>Имя пользователя:</label>
                     <input
                         type="text"
-                        name='username'
+                        name="username"
                         value={formData.username}
                         onChange={handleChange}
                         required
@@ -85,9 +97,9 @@ const Register = () => {
                         required
                     />
                 </div>
-                <button type='submit'>Зарегистрироваться</button>
+                <button type="submit">Зарегистрироваться</button>
             </form>
-            {message && <p>{message}</p>} 
+            {message && <p>{message}</p>}
         </div>
     );
 };
