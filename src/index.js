@@ -1,13 +1,18 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client'; // Импортируем createRoot
+import { Provider } from 'react-redux';
 import App from './App';
+import { store } from './app/store/store';
 
-// Создаем корневой элемент
-const root = createRoot(document.getElementById('root'));
+// Находим корневой элемент
+const container = document.getElementById('root');
 
-// Рендерим приложение
+// Создаём корневой элемент
+const root = createRoot(container);
+
+// Рендерим приложение с использованием Provider
 root.render(
-    <React.StrictMode>
+    <Provider store={store}>
         <App />
-    </React.StrictMode>
+    </Provider>
 );
