@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-const Register = () => {
+const RegisterPage = () => {
     const [formData, setFormData] = useState({
         username: '',
         email: '',
@@ -9,7 +9,6 @@ const Register = () => {
     });
     const [message, setMessage] = useState('');
 
-    // Функция для обработки изменений в полях ввода
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({
@@ -18,18 +17,18 @@ const Register = () => {
         });
     };
 
-    // Функция для обработки отправки формы
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        // Проверка совпадения паролей
+        console.log(process.env.REACT_APP_BACKEND_URL); // Проверьте, что выводится правильный URL
+
         if (formData.password !== formData.password2) {
             setMessage('Пароли не совпадают.');
             return;
         }
 
         try {
-            const response = await fetch('http://127.0.0.1:8000/api/register/', {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/register/`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -104,4 +103,4 @@ const Register = () => {
     );
 };
 
-export default Register;
+export default RegisterPage;
