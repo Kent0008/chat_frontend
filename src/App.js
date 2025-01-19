@@ -1,13 +1,13 @@
+// App.js
 import React from 'react';
-import RegisterPage from './app/layout/RegisterPage/RegisterPage';
+import AppRouter from './app/routes/AppRouter';
 
 function App() {
-  return (
-    <div>
-      <h1>Мое приложение</h1>
-      <RegisterPage />
-    </div>
-  );
+    return (
+        <div>
+            <AppRouter />
+        </div>
+    );
 }
 
 export default App;

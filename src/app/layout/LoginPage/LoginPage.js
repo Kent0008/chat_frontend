@@ -2,12 +2,10 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getHeaders } from '../../shared/utils/header/headers';
 
-const RegisterPage = () => {
+const LoginPage = () => {
     const [formData, setFormData] = useState({
         username: '',
-        email: '',
         password: '',
-        password2: '',
     });
     const [message, setMessage] = useState('');
     const navigate = useNavigate();
@@ -23,29 +21,23 @@ const RegisterPage = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (formData.password !== formData.password2) {
-            setMessage('Пароли не совпадают.');
-            return;
-        }
-
         try {
-            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/register/`, {
+            const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/api/login/`, {
                 method: 'POST',
                 headers: getHeaders(),
                 body: JSON.stringify({
                     username: formData.username,
-                    email: formData.email,
                     password: formData.password,
-                    password2: formData.password2,
                 }),
+                credentials: 'include',
             });
 
             const data = await response.json();
             if (response.ok) {
-                setMessage('Регистрация прошла успешно!');
-                navigate('/login');
+                setMessage('Вход выполнен успешно!');
+                navigate('/');
             } else {
-                setMessage(data.error || 'Ошибка при регистрации.');
+                setMessage(data.error || 'Ошибка при входе.');
             }
         } catch (error) {
             setMessage('Ошибка при отправке запроса.');
@@ -55,7 +47,7 @@ const RegisterPage = () => {
 
     return (
         <div>
-            <h2>Регистрация</h2>
+            <h2>Вход</h2>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Имя пользователя:</label>
@@ -63,16 +55,6 @@ const RegisterPage = () => {
                         type="text"
                         name="username"
                         value={formData.username}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <div>
-                    <label>Email:</label>
-                    <input
-                        type="email"
-                        name="email"
-                        value={formData.email}
                         onChange={handleChange}
                         required
                     />
@@ -87,21 +69,11 @@ const RegisterPage = () => {
                         required
                     />
                 </div>
-                <div>
-                    <label>Подтвердите пароль:</label>
-                    <input
-                        type="password"
-                        name="password2"
-                        value={formData.password2}
-                        onChange={handleChange}
-                        required
-                    />
-                </div>
-                <button type="submit">Зарегистрироваться</button>
+                <button type="submit">Войти</button>
             </form>
             {message && <p>{message}</p>}
         </div>
     );
 };
 
-export default RegisterPage;
+export default LoginPage;
